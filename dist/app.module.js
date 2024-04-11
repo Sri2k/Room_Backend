@@ -15,6 +15,8 @@ const user_entity_1 = require("./entities/user.entity");
 const pod_entity_1 = require("./entities/pod.entity");
 const message_entity_1 = require("./entities/message.entity");
 const pod_member_entity_1 = require("./entities/pod-member.entity");
+const user_controller_1 = require("./user/user_controllers/user.controller");
+const user_service_1 = require("./user/user_services/user.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,9 +33,10 @@ exports.AppModule = AppModule = __decorate([
                 entities: [user_entity_1.User, pod_entity_1.Pod, message_entity_1.Message, pod_member_entity_1.PodMember],
                 synchronize: true,
             }),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
         ],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [app_controller_1.AppController, user_controller_1.UserController],
+        providers: [app_service_1.AppService, user_service_1.UserService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

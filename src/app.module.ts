@@ -6,6 +6,8 @@ import { User } from './entities/user.entity';
 import { Pod } from './entities/pod.entity';
 import { Message } from './entities/message.entity';
 import { PodMember } from './entities/pod-member.entity';
+import { UserController } from './user/user_controllers/user.controller';
+import { UserService } from './user/user_services/user.service';
 
 @Module({
   imports: [
@@ -19,8 +21,9 @@ import { PodMember } from './entities/pod-member.entity';
       entities: [User, Pod, Message, PodMember], // Add all your entity classes here
       synchronize: true, // Auto-generate database schema (useful for development, but not recommended for production)
     }),
+    TypeOrmModule.forFeature([User]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController,UserController],
+  providers: [AppService,UserService],
 })
 export class AppModule { }
