@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Message } from 'src/entities/message.entity';
 import { Repository } from 'typeorm';
 import { CreateMessageDto } from '../message_dto/create-message.dto';
+import { UpdateMessageDto } from '../message_dto/update-message.dto';
 
 
 @Injectable()
@@ -17,7 +18,8 @@ export class MessageService
 
     async createMessage(createMessageDto: CreateMessageDto): Promise<Message>
     {
-        const message = this.messageRepository.create(createMessageDto);
+        const { content, timestamp } = createMessageDto;
+        const message = this.messageRepository.create({ content, timestamp });
         return this.messageRepository.save(message);
     }
 
@@ -38,10 +40,11 @@ export class MessageService
         return message;
     }
 
-    async updateMessage(id: number, updateMessageDto: CreateMessageDto): Promise<Message>
+    async updateMessage(id: number, updateMessageDto: UpdateMessageDto): Promise<Message>
     {
+        const { content } = updateMessageDto;
         const message = await this.getMessageById(id);
-        message.content = updateMessageDto.content;
+        message.content = content;
         return this.messageRepository.save(message);
     }
 
