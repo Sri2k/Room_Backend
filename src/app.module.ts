@@ -8,6 +8,8 @@ import { Message } from './entities/message.entity';
 import { PodMember } from './entities/pod-member.entity';
 import { UserController } from './user/user_controllers/user.controller';
 import { UserService } from './user/user_services/user.service';
+import { MessageService } from './message/message_services/message.service';
+import { WebsocketGateway } from './websockets/websocket/websocket.gateway';
 
 @Module({
   imports: [
@@ -21,9 +23,10 @@ import { UserService } from './user/user_services/user.service';
       entities: [User, Pod, Message, PodMember], // Add all your entity classes here
       synchronize: true, // Auto-generate database schema (useful for development, but not recommended for production)
     }),
-    TypeOrmModule.forFeature([User]),
+    
+    TypeOrmModule.forFeature([User,Message]),
   ],
   controllers: [AppController,UserController],
-  providers: [AppService,UserService],
+  providers: [AppService, UserService, MessageService, WebsocketGateway],
 })
 export class AppModule { }

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Message } from 'src/entities/message.entity';
 import { CreateMessageDto } from '../message_dto/create-message.dto';
 import { UpdateMessageDto } from '../message_dto/update-message.dto';
+import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class MessageService
@@ -15,6 +16,7 @@ export class MessageService
 
     async createMessage(createMessageDto: CreateMessageDto): Promise<Message>
     {
+        await validateOrReject(createMessageDto); // Validate input
         const { content, timestamp } = createMessageDto;
         const message = this.messageRepository.create({ content, timestamp });
         return this.messageRepository.save(message);
@@ -37,11 +39,9 @@ export class MessageService
         return message;
     }
 
-    async updateMessage(
-        id: number,
-        updateMessageDto: UpdateMessageDto,
-    ): Promise<Message>
+    async updateMessage(id: number, updateMessageDto: UpdateMessageDto): Promise<Message>
     {
+        await validateOrReject(updateMessageDto); // Validate input
         const { content } = updateMessageDto;
         const message = await this.getMessageById(id);
         message.content = content;
